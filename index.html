@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="index.css">
+  <title>Markdown to HTML</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>Markdown to HTML</h1>
+    <span>Write in Markdown and copy as HTML</span>
+
+
+    <div class="text-container parent">
+      <div class="div1">
+        <span>Input</span>
+        <textarea id="textInput"># Header 1
+
+some text. **in bold**. `inline code`.
+
+> Highlighted
+        </textarea>
+      </div>
+      <div class="div2">
+        <span>Display</span>
+        <div id="contentDisplay"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  loadContentsWithParsedInput()
+
+  window.addEventListener('keyup', () => {
+    loadContentsWithParsedInput()
+  })
+
+  function loadContentsWithParsedInput() {
+    document.getElementById('contentDisplay').innerHTML = marked.parse(document.getElementById('textInput').value)
+  }
+</script>
+
+</html>
