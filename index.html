@@ -17,9 +17,9 @@
     <span>Write in Markdown and export as HTML</span>
 
     <div class="buttons-container">
-      <a>Copy Html</a>
-      <a>Save Html</a>
-      <a>Save as Vue Component</a>
+      <a class="copy-btn" onclick="copyMd()">Copy Markdown</a>
+      <a class="copy-btn" onclick="copyHtml()">Copy HTML</a>
+      <a class="copy-btn" onclick="copyVue()">Copy as Vue Component</a>
     </div>
 
     <div id="text-container">
@@ -29,13 +29,14 @@ some text. **in bold**. `inline code`.
 
 > Highlighted
         </textarea>
-      <div id="content-display"></div>
+      <div id="html-content-display"></div>
     </div>
 
   </div>
   <div class="footer">
     <a href="https://github.com/keithwongg" target="_blank">@keithwongg</a>
   </div>
+  <div class="alert-box hide" id="alert-box"></div>
 </body>
 
 <script>
@@ -45,7 +46,34 @@ some text. **in bold**. `inline code`.
     loadContentsWithParsedInput()
   })
   function loadContentsWithParsedInput() {
-    document.getElementById('content-display').innerHTML = marked.parse(document.getElementById('text-input').value)
+    document.getElementById('html-content-display').innerHTML = marked.parse(document.getElementById('text-input').value)
+  }
+
+  function copyMd() {
+    navigator.clipboard.writeText(document.getElementById('text-input').innerText)
+    showAlert('Copied Markdown')
+  }
+
+  function copyHtml() {
+    navigator.clipboard.writeText(document.getElementById('html-content-display').innerHTML)
+    showAlert('Copied HTML')
+  }
+
+  function copyVue() {
+    let html = document.getElementById('html-content-display').innerHTML
+    let vueComponent = `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
+    navigator.clipboard.writeText(vueComponent)
+    showAlert('Copied Vue Component')
+  }
+
+  function showAlert(display) {
+    let alert = document.getElementById('alert-box')
+    alert.innerText = display
+    alert.classList.remove('hide')
+    setTimeout(() => {
+      alert.classList.add('hide')
+      alert.innerText = ''
+    }, 2000);
   }
 </script>
 
