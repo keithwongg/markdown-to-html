@@ -14,36 +14,38 @@
   <div class="container">
 
     <h1>Markdown to HTML</h1>
-    <span>Write in Markdown and copy as HTML</span>
+    <span>Write in Markdown and export as HTML</span>
 
+    <div class="buttons-container">
+      <a>Copy Html</a>
+      <a>Save Html</a>
+      <a>Save as Vue Component</a>
+    </div>
 
-    <div class="text-container parent">
-      <div class="div1">
-        <span>Input</span>
-        <textarea id="textInput"># Header 1
+    <div id="text-container">
+      <textarea id="text-input"># Header 1
 
 some text. **in bold**. `inline code`.
 
 > Highlighted
         </textarea>
-      </div>
-      <div class="div2">
-        <span>Display</span>
-        <div id="contentDisplay"></div>
-      </div>
+      <div id="content-display"></div>
     </div>
+
+  </div>
+  <div class="footer">
+    <a href="https://github.com/keithwongg" target="_blank">@keithwongg</a>
   </div>
 </body>
 
 <script>
+  /* marked.js to convert md to html */
   loadContentsWithParsedInput()
-
   window.addEventListener('keyup', () => {
     loadContentsWithParsedInput()
   })
-
   function loadContentsWithParsedInput() {
-    document.getElementById('contentDisplay').innerHTML = marked.parse(document.getElementById('textInput').value)
+    document.getElementById('content-display').innerHTML = marked.parse(document.getElementById('text-input').value)
   }
 </script>
 
