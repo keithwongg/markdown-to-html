@@ -26,7 +26,6 @@ body {
 
 body {
     background: var(--default-bg);
-    /* background: linear-gradient(17deg, rgba(51, 51, 51, 1) 93%, rgba(82, 76, 76, 1) 100%); */
     height: 100vh;
     width: 100vw;
     margin: 0;
@@ -34,6 +33,23 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+/* width */
+::-webkit-scrollbar {
+    background: var(--default-highlight);
+    width: 8px;
+    border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--default-bg);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #7a7a7a;
 }
 
 h1,
@@ -66,7 +82,12 @@ h3 {
     min-width: 30%;
     height: 100%;
     width: 50%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#html-content-display>* {
+    text-wrap: auto;
 }
 
 #resize {
@@ -120,13 +141,36 @@ span {
     display: block;
 }
 
+.actions-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
 .buttons-container {
-    margin-top: 12px;
     margin-bottom: 12px;
+    padding: 12px 8px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 12px;
+    border: 1px var(--default-txt) dotted;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.icon {
+    height: 16px;
+    width: 16px;
+}
+
+.copy-float-title {
+    position: relative;
+    bottom: -8px;
+    left: 10px;
+    width: fit-content;
+    background-color: var(--default-bg);
+    z-index: 2;
 }
 
 .copy-btn {
@@ -138,6 +182,12 @@ span {
     font-size: 14px;
     padding: 4px 8px;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    place-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 12px;
 }
 
 .footer {

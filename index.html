@@ -16,10 +16,36 @@
     <h1>Markdown to HTML</h1>
     <span>Write in Markdown and export as HTML</span>
 
-    <div class="buttons-container">
-      <a class="copy-btn" onclick="copyMd()">Copy Markdown</a>
-      <a class="copy-btn" onclick="copyHtml()">Copy HTML</a>
-      <a class="copy-btn" onclick="copyVue()">Copy as Vue Component</a>
+    <div class="actions-container">
+      <div>
+        <span class="copy-float-title">Copy</span>
+        <div class="buttons-container">
+          <a class="copy-btn" onclick="copy(textInput, 'Copied Markdown')">
+            <img class="icon" src="icons/markdown.svg" />
+          </a>
+          <a class="copy-btn" onclick="copy(htmlOutput, 'Copied HTML')">
+            <img class="icon" src="icons/html.svg" />
+          </a>
+          <a class="copy-btn" onclick="copy(vueComponent, 'Copied Vue Component')">
+            <img class="icon" src="icons/vue.svg" />
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <span class="copy-float-title">Export</span>
+        <div class="buttons-container">
+          <a class="copy-btn" onclick="exportMd()">
+            <img class="icon" src="icons/markdown.svg" />
+          </a>
+          <a class="copy-btn" onclick="exportHtml()">
+            <img class="icon" src="icons/html.svg" />
+          </a>
+          <a class="copy-btn" onclick="exportVue()">
+            <img class="icon" src="icons/vue.svg" />
+          </a>
+        </div>
+      </div>
     </div>
 
     <div id="text-container">
@@ -34,7 +60,7 @@ some text. **in bold**. `inline code`.
 
   </div>
   <div class="footer">
-    <a href="https://github.com/keithwongg" target="_blank">@keithwongg</a>
+    <a href="https://github.com/keithwongg" target="_blank">made by @keithwongg</a>
   </div>
   <div class="alert-box hide" id="alert-box"></div>
 </body>
@@ -49,21 +75,38 @@ some text. **in bold**. `inline code`.
     document.getElementById('html-content-display').innerHTML = marked.parse(document.getElementById('text-input').value)
   }
 
-  function copyMd() {
-    navigator.clipboard.writeText(document.getElementById('text-input').innerText)
-    showAlert('Copied Markdown')
-  }
 
-  function copyHtml() {
-    navigator.clipboard.writeText(document.getElementById('html-content-display').innerHTML)
-    showAlert('Copied HTML')
-  }
-
-  function copyVue() {
+  /* Copy and Export Functions*/
+  let textInput = () => { return document.getElementById('text-input').textContent };
+  let htmlOutput = () => { return document.getElementById('html-content-display').innerHTML };
+  let vueComponent = () => {
     let html = document.getElementById('html-content-display').innerHTML
-    let vueComponent = `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
-    navigator.clipboard.writeText(vueComponent)
-    showAlert('Copied Vue Component')
+    return `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
+  };
+
+  function copy(fn, msg) {
+    navigator.clipboard.writeText(fn())
+    showAlert(msg)
+  }
+
+  // function copyMd() {
+  //   navigator.clipboard.writeText(document.getElementById('text-input').textContent)
+  //   showAlert('Copied Markdown')
+  // }
+
+  // function copyHtml() {
+  //   navigator.clipboard.writeText(document.getElementById('html-content-display').innerHTML)
+  //   showAlert('Copied HTML')
+  // }
+
+  // function copyVue() {
+  //   navigator.clipboard.writeText(createVueComponent())
+  //   showAlert('Copied Vue Component')
+  // }
+
+  function createVueComponent() {
+    let html = document.getElementById('html-content-display').innerHTML
+    return `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
   }
 
   function showAlert(display) {
@@ -75,6 +118,44 @@ some text. **in bold**. `inline code`.
       alert.innerText = ''
     }, 2000);
   }
+
+  function saveFile(data, fileName, type) {
+    var a = document.createElement("a");
+    // var json = JSON.stringify(data);
+    var blob = new Blob([data], { type: type });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  function saveVueComponent() {
+    var a = document.createElement("a");
+    var json = JSON.stringify(data);
+    var blob = new Blob([json], { type: "octet/stream" });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  function exportMd() {
+    let data = document.getElementById('text-input').textContent
+    console.log(data)
+    saveFile(data, 'markdown-input.md', 'text/markdown');
+  }
+
+  function exportHtml() {
+    let data = document.getElementById('html-content-display').innerHTML
+    saveFile(data, 'html-output.html', 'text/html');
+  }
+
+  function exportVue() {
+    saveFile(createVueComponent(), 'html-vue-component.vue', 'text/html');
+  }
+
 </script>
 
 </html>
