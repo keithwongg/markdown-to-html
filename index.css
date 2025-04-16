@@ -159,6 +159,11 @@ span {
     width: fit-content;
 }
 
+/* .preview {
+    width: 68px;
+    justify-content: center;
+} */
+
 .icon {
     height: 16px;
     width: 16px;
@@ -220,9 +225,13 @@ span {
     display: none;
 }
 
+.single {
+    width: 100% !important;
+}
+
 @media (max-width: 600px) {
     #text-container {
-        width: 86vw;
+        width: 90vw;
         flex-direction: column;
     }
 

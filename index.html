@@ -46,6 +46,15 @@
           </a>
         </div>
       </div>
+      <div>
+        <span class="copy-float-title">View</span>
+        <div class="buttons-container preview">
+          <a class="copy-btn" onclick="togglePreview()">
+            <img id="eyeImage" class="icon" src="icons/eye.svg"></img>
+          </a>
+        </div>
+      </div>
+
     </div>
 
     <div id="text-container">
@@ -69,6 +78,7 @@ some text. **in bold**. `inline code`.
 
   const ti = document.getElementById('text-input')
   const hcd = document.getElementById('html-content-display')
+  let showPreview = true;
 
   /* marked.js to convert md to html */
   loadContentsWithParsedInput()
@@ -144,6 +154,26 @@ some text. **in bold**. `inline code`.
     let actualTiHeight = ti.scrollHeight - ti.clientHeight
     let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
     ti.scrollTop = (hcd.scrollTop / actualHcdHeight) * actualTiHeight
+  }
+
+  /* toggle preview */
+  function togglePreview() {
+    let eye = document.getElementById('eyeImage')
+    // let eClose = document.getElementById('eye-closed')
+    showPreview = !showPreview
+    if (showPreview) {
+      hcd.classList.remove('hide')
+      // eye.remove('hide')
+      // eClose.add('hide')
+      eye.src = 'icons/eye.svg';
+      ti.classList.remove('single');
+    } else {
+      hcd.classList.add('hide')
+      // eClose.remove('hide')
+      // eOpen.add('hide')
+      eye.src = 'icons/eye-closed.svg';
+      ti.classList.add('single');
+    }
   }
 
 </script>
