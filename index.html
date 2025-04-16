@@ -49,13 +49,13 @@
     </div>
 
     <div id="text-container">
-      <textarea id="text-input"># Header 1
+      <textarea id="text-input" onscroll="textInputScroll()" onkeyup="textInputScroll()"># Header 1
 
 some text. **in bold**. `inline code`.
 
 > Highlighted
         </textarea>
-      <div id="html-content-display"></div>
+      <div id="html-content-display" onscroll="htmlOutputScroll()"></div>
     </div>
 
   </div>
@@ -66,21 +66,25 @@ some text. **in bold**. `inline code`.
 </body>
 
 <script>
+
+  const ti = document.getElementById('text-input')
+  const hcd = document.getElementById('html-content-display')
+
   /* marked.js to convert md to html */
   loadContentsWithParsedInput()
   window.addEventListener('keyup', () => {
     loadContentsWithParsedInput()
   })
   function loadContentsWithParsedInput() {
-    document.getElementById('html-content-display').innerHTML = marked.parse(document.getElementById('text-input').value)
+    hcd.innerHTML = marked.parse(ti.value)
   }
 
 
   /* Copy and Export Functions*/
-  let textInput = () => { return document.getElementById('text-input').textContent };
-  let htmlOutput = () => { return document.getElementById('html-content-display').innerHTML };
+  let textInput = () => { return ti.textContent };
+  let htmlOutput = () => { return hcd.innerHTML };
   let vueComponent = () => {
-    let html = document.getElementById('html-content-display').innerHTML
+    let html = hcd.innerHTML
     return `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
   };
 
@@ -89,23 +93,8 @@ some text. **in bold**. `inline code`.
     showAlert(msg)
   }
 
-  // function copyMd() {
-  //   navigator.clipboard.writeText(document.getElementById('text-input').textContent)
-  //   showAlert('Copied Markdown')
-  // }
-
-  // function copyHtml() {
-  //   navigator.clipboard.writeText(document.getElementById('html-content-display').innerHTML)
-  //   showAlert('Copied HTML')
-  // }
-
-  // function copyVue() {
-  //   navigator.clipboard.writeText(createVueComponent())
-  //   showAlert('Copied Vue Component')
-  // }
-
   function createVueComponent() {
-    let html = document.getElementById('html-content-display').innerHTML
+    let html = hcd.innerHTML
     return `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
   }
 
@@ -121,7 +110,6 @@ some text. **in bold**. `inline code`.
 
   function saveFile(data, fileName, type) {
     var a = document.createElement("a");
-    // var json = JSON.stringify(data);
     var blob = new Blob([data], { type: type });
     var url = window.URL.createObjectURL(blob);
     a.href = url;
@@ -130,30 +118,32 @@ some text. **in bold**. `inline code`.
     window.URL.revokeObjectURL(url);
   }
 
-  function saveVueComponent() {
-    var a = document.createElement("a");
-    var json = JSON.stringify(data);
-    var blob = new Blob([json], { type: "octet/stream" });
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
-
   function exportMd() {
-    let data = document.getElementById('text-input').textContent
+    let data = ti.textContent
     console.log(data)
     saveFile(data, 'markdown-input.md', 'text/markdown');
   }
 
   function exportHtml() {
-    let data = document.getElementById('html-content-display').innerHTML
+    let data = hcd.innerHTML
     saveFile(data, 'html-output.html', 'text/html');
   }
 
   function exportVue() {
     saveFile(createVueComponent(), 'html-vue-component.vue', 'text/html');
+  }
+
+  /* Scroll both windows together */
+  function textInputScroll() {
+    let actualTiHeight = ti.scrollHeight - ti.clientHeight
+    let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
+    hcd.scrollTop = (ti.scrollTop / actualTiHeight) * actualHcdHeight
+  }
+
+  function htmlOutputScroll() {
+    let actualTiHeight = ti.scrollHeight - ti.clientHeight
+    let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
+    ti.scrollTop = (hcd.scrollTop / actualHcdHeight) * actualTiHeight
   }
 
 </script>
