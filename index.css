@@ -220,7 +220,7 @@ span {
     display: none;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
     #text-container {
         width: 86vw;
         flex-direction: column;
