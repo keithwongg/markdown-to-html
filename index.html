@@ -20,13 +20,13 @@
       <div>
         <span class="copy-float-title">Copy</span>
         <div class="buttons-container">
-          <a class="copy-btn" onclick="copy(textInput, 'Copied Markdown')">
+          <a class="copy-btn" onclick="action(copyTextInput, 'Copied Markdown')">
             <img class="icon" src="icons/markdown.svg" />
           </a>
-          <a class="copy-btn" onclick="copy(htmlOutput, 'Copied HTML')">
+          <a class="copy-btn" onclick="action(copyHtmlOutput, 'Copied HTML')">
             <img class="icon" src="icons/html.svg" />
           </a>
-          <a class="copy-btn" onclick="copy(vueComponent, 'Copied Vue Component')">
+          <a class="copy-btn" onclick="action(copyVueComponent, 'Copied Vue Component')">
             <img class="icon" src="icons/vue.svg" />
           </a>
         </div>
@@ -35,13 +35,13 @@
       <div>
         <span class="copy-float-title">Export</span>
         <div class="buttons-container">
-          <a class="copy-btn" onclick="exportMd()">
+          <a class="copy-btn" onclick="action(exportMd, 'Exported Markdown')">
             <img class="icon" src="icons/markdown.svg" />
           </a>
-          <a class="copy-btn" onclick="exportHtml()">
+          <a class="copy-btn" onclick="action(exportHtml, 'Exported HTML')">
             <img class="icon" src="icons/html.svg" />
           </a>
-          <a class="copy-btn" onclick="exportVue()">
+          <a class="copy-btn" onclick="action(exportVue, 'Exported Vue Component')">
             <img class="icon" src="icons/vue.svg" />
           </a>
         </div>
@@ -91,14 +91,14 @@ some text. **in bold**. `inline code`.
 
 
   /* Copy and Export Functions*/
-  let textInput = () => { return ti.textContent };
-  let htmlOutput = () => { return hcd.innerHTML };
-  let vueComponent = () => {
+  let copyTextInput = () => { return ti.textContent };
+  let copyHtmlOutput = () => { return hcd.innerHTML };
+  let copyVueComponent = () => {
     let html = hcd.innerHTML
     return `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
   };
 
-  function copy(fn, msg) {
+  function action(fn, msg) {
     navigator.clipboard.writeText(fn())
     showAlert(msg)
   }
@@ -108,11 +108,14 @@ some text. **in bold**. `inline code`.
     return `<script setup>\n<\/script>\n\n<template>\n${html}<\/template>\n\n<style scoped><\/style>`
   }
 
+  let timeoutId = undefined;
   function showAlert(display) {
     let alert = document.getElementById('alert-box')
     alert.innerText = display
     alert.classList.remove('hide')
-    setTimeout(() => {
+    console.log(`toid: ${timeoutId}`)
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
       alert.classList.add('hide')
       alert.innerText = ''
     }, 2000);

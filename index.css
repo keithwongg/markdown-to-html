@@ -223,6 +223,7 @@ span {
     border-radius: 5px;
     text-align: center;
     place-content: center;
+    z-index: 3;
 }
 
 .hide {
