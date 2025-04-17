@@ -233,19 +233,29 @@ span {
     width: 100% !important;
 }
 
-/* @media (max-width: 600px) {
-    #text-container {
-        width: 90vw;
-        flex-direction: column;
+@media (max-width: 600px) {
+    h1 {
+        font-size: 20px;
     }
 
-    #text-input {
-        width: 100%;
-        resize: none;
+    span {
+        font-size: 12px;
     }
 
-    #html-content-display {
-        width: 100%;
+    .buttons-container {
+        padding: 8px 4px 4px 4px;
     }
 
-} */
+    .copy-btn {
+        height: 24px;
+    }
+
+    .copy-float-title {
+        left: 5px;
+    }
+
+    .icon {
+        height: 12px;
+        width: 12px;
+    }
+}
