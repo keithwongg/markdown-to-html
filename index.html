@@ -58,13 +58,13 @@
     </div>
 
     <div id="text-container">
-      <textarea id="text-input" onscroll="textInputScroll()" oninput="textInputScroll()"># Header 1
+      <textarea id="text-input"># Header 1
 
 some text. **in bold**. `inline code`.
 
 > Highlighted
         </textarea>
-      <div id="html-content-display" onscroll="htmlOutputScroll()"></div>
+      <div id="html-content-display"></div>
     </div>
 
   </div>
@@ -144,17 +144,34 @@ some text. **in bold**. `inline code`.
   }
 
   /* Scroll both windows together */
-  function textInputScroll() {
-    let actualTiHeight = ti.scrollHeight - ti.clientHeight
-    let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
-    hcd.scrollTop = (ti.scrollTop / actualTiHeight) * actualHcdHeight
-  }
+  let scrollables = [ti, hcd]
+  scrollables.forEach(x => x.addEventListener('scroll', e => {
+    const offsetTop = x.scrollTop / (x.scrollHeight - x.clientHeight);
+    scrollables.forEach(y => {
+      y.scrollTop = offsetTop * (y.scrollHeight - y.clientHeight);
+    });
+  }));
+  // ti.addEventListener('scroll', () => {
+  //   textInputScroll()
+  //   htmlOutputScroll()
+  // })
 
-  function htmlOutputScroll() {
-    let actualTiHeight = ti.scrollHeight - ti.clientHeight
-    let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
-    ti.scrollTop = (hcd.scrollTop / actualHcdHeight) * actualTiHeight
-  }
+  // hcd.addEventListener('scroll', () => {
+  //   textInputScroll()
+  //   htmlOutputScroll()
+  // })
+
+  // function textInputScroll() {
+  //   let actualTiHeight = ti.scrollHeight - ti.clientHeight
+  //   let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
+  //   hcd.scrollTop = (ti.scrollTop / actualTiHeight) * actualHcdHeight
+  // }
+
+  // function htmlOutputScroll() {
+  //   let actualTiHeight = ti.scrollHeight - ti.clientHeight
+  //   let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
+  //   ti.scrollTop = (hcd.scrollTop / actualHcdHeight) * actualTiHeight
+  // }
 
   /* toggle preview */
   function togglePreview() {
