@@ -60,7 +60,7 @@ h3 {
 }
 
 #text-container {
-    height: calc(100% - 40px);
+    height: calc(100% - 48px);
     /* height: 100%; */
     max-width: 97vw;
     width: 100%;

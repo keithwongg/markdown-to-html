@@ -143,36 +143,6 @@ some text. **in bold**. `inline code`.
     saveFile(createVueComponent(), 'html-vue-component.vue', 'text/html');
   }
 
-  /* Scroll both windows together */
-  let scrollables = [ti, hcd]
-  scrollables.forEach(x => x.addEventListener('scroll', e => {
-    const offsetTop = x.scrollTop / (x.scrollHeight - x.clientHeight);
-    scrollables.forEach(y => {
-      y.scrollTop = offsetTop * (y.scrollHeight - y.clientHeight);
-    });
-  }));
-  // ti.addEventListener('scroll', () => {
-  //   textInputScroll()
-  //   htmlOutputScroll()
-  // })
-
-  // hcd.addEventListener('scroll', () => {
-  //   textInputScroll()
-  //   htmlOutputScroll()
-  // })
-
-  // function textInputScroll() {
-  //   let actualTiHeight = ti.scrollHeight - ti.clientHeight
-  //   let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
-  //   hcd.scrollTop = (ti.scrollTop / actualTiHeight) * actualHcdHeight
-  // }
-
-  // function htmlOutputScroll() {
-  //   let actualTiHeight = ti.scrollHeight - ti.clientHeight
-  //   let actualHcdHeight = hcd.scrollHeight - hcd.clientHeight
-  //   ti.scrollTop = (hcd.scrollTop / actualHcdHeight) * actualTiHeight
-  // }
-
   /* toggle preview */
   function togglePreview() {
     let eye = document.getElementById('eyeImage')
